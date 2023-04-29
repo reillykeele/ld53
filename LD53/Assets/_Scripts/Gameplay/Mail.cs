@@ -4,6 +4,7 @@ using LD53.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Util.Attributes;
+using Util.Helpers;
 
 namespace LD53.Gameplay
 {
@@ -19,8 +20,15 @@ namespace LD53.Gameplay
         [SerializeField] private InputReader _inputReader;
         [SerializeField] private float _moveDelta = 1f;
         [SerializeField] private float _rotationDelta = 1f;
+        [SerializeField] private float _fadeDelta = 1f;
 
+        [Header("bruh")]
+        [SerializeField] private SpriteRenderer _outline;
+        [SerializeField] private SpriteRenderer _highlight;
+
+        [Header("bruh2")]
         [SerializeField, ReadOnly] public MailType MailType;
+        [SerializeField, ReadOnly] public int SortOrder;
 
         private Collider2D _collider;
 
@@ -31,6 +39,7 @@ namespace LD53.Gameplay
         private SpriteRenderer[] _spriteRenderers;
 
         [Header("Debug")]
+        [SerializeField, ReadOnly] private bool _isHovering = false;
         [SerializeField, ReadOnly] private bool _isDragging = false;
         [SerializeField, ReadOnly] private Quaternion _originalRotation;
 
@@ -56,10 +65,28 @@ namespace LD53.Gameplay
                 
                 _ => Color.white
             };
+
+            _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, 0f);
+
+            UpdateSortOrder();
         }
 
         void Update()
         {
+            // highlight
+            if (_isDragging)
+            {
+                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 1f, _fadeDelta));
+            }
+            else if (_isHovering)
+            {
+                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 0.5f, _fadeDelta));
+            }
+            else
+            {
+                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 0f, _fadeDelta));
+            }
+
             if (_isDragging)
             {
                 if (transform.rotation != Quaternion.identity)
@@ -74,13 +101,18 @@ namespace LD53.Gameplay
         void OnMouseEnter()
         {
             // TODO: Highlight effect
-            _spriteRenderers[0].color = Color.yellow;
+            _isHovering = true;
+
+            _outline.gameObject.Disable();
         }
 
         void OnMouseExit()
         {
             // TODO: Highlight effect
-            _spriteRenderers[0].color = Color.white;
+            _isHovering = _isDragging;
+
+            if (_isHovering == false)
+                _outline.gameObject.Enable();
         }
 
         void OnMouseUp()
@@ -99,15 +131,25 @@ namespace LD53.Gameplay
                     Destroy(gameObject);
                 }
             }
+
+            // reset sort order to top of stack
+            SortOrder = GameManager.Instance.GetHighestSortingOrder() + 1;
+            UpdateSortOrder();
+
+            if (_isHovering == false)
+                _outline.gameObject.Enable();
         }
 
         void OnMouseDown()
         {
-            // TODO: Figure out what is on top maybe? Is that done implicitly?
-
             _isDragging = true;
+            
+            SortOrder = Int16.MaxValue;
+            UpdateSortOrder();
 
             _pivotOffset = transform.position - GetMousePosition();
+
+            _outline.gameObject.Disable();
         }
 
         void OnMouseDrag()
@@ -124,6 +166,14 @@ namespace LD53.Gameplay
             pos.z = 0f;
 
             return pos;
+        }
+
+        private void UpdateSortOrder()
+        {
+            foreach (var render in _spriteRenderers)
+            {
+                render.sortingOrder = SortOrder;
+            }
         }
     }
 }

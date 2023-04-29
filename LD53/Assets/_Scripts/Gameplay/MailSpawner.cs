@@ -31,6 +31,7 @@ namespace LD53.Gameplay
                 var mail = Instantiate(_mailPrefab, pos, rot);
 
                 mail.MailType = (MailType) mailTypes.GetValue(Random.Range(0, mailTypes.Length));
+                mail.SortOrder = i;
             }
         }
 
