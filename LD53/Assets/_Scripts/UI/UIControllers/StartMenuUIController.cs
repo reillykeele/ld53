@@ -1,4 +1,4 @@
-using Template.Input;
+using LD53.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Util.Audio;
@@ -6,7 +6,7 @@ using Util.Systems;
 using Util.UI;
 using Util.UI.Controllers;
 
-namespace UI.UIControllers
+namespace LD53.UI.UIControllers
 {
     public class StartMenuUIController : UIController
     {

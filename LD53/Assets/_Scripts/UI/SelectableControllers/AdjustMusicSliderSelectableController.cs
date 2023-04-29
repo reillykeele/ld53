@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using Template.UI.SelectableControllers;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Util.Enums;
 using Util.Systems;
 
-namespace Template.UI.SelectableControllers
+namespace LD53.UI.SelectableControllers
 {
     public class AdjustMusicSliderSelectableController : AdjustValueSelectableController
     {

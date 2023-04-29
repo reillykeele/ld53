@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using Util.Input;
 
-namespace Template.Input
+namespace LD53.Input
 {
 	[CreateAssetMenu(fileName = "InputReader", menuName = "Game/Input Reader")]
     public class InputReader : ScriptableObject, GameInput.IGameplayActions, GameInput.IMenuActions, IInputReader

@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Drop Area
+    uniqueID: 2423985527
+    locked: 0
+  - name: Letters
+    uniqueID: 1763509441
+    locked: 0

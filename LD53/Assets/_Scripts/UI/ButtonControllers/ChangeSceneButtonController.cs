@@ -2,7 +2,7 @@ using Util.Coroutine;
 using Util.Systems;
 using Util.UI.Controllers.Selectables.Buttons;
 
-namespace Template.UI.ButtonControllers
+namespace LD53.UI.ButtonControllers
 {
     public class ChangeSceneButtonController : AButtonController
     {
