@@ -7,8 +7,13 @@ namespace LD53.Gameplay
     {
         public bool Receive(Mail mail)
         {
-            mail.StampReceived();
-            return true;
+            if (mail.HasReceivedStamp == false)
+            {
+                mail.StampReceived();
+                return true;
+            }
+            
+            return false;
         }
 
     }

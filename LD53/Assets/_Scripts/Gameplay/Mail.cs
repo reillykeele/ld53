@@ -12,7 +12,9 @@ namespace LD53.Gameplay
     public enum MailType
     {
         Blue = 0,
-        Red = 1
+        Red = 1,
+        Yellow = 2,
+        Purple = 3
     }
 
     [RequireComponent(typeof(Collider2D))]
@@ -86,7 +88,9 @@ namespace LD53.Gameplay
             {
                 MailType.Blue => Color.blue,
                 MailType.Red => Color.red,
-                
+                MailType.Yellow => Color.yellow,
+                MailType.Purple => Color.magenta,
+
                 _ => Color.black
             };
 

@@ -9,7 +9,7 @@ namespace LD53.Gameplay
         {
             if (mail.HasPostage == false && mail.HasReceivedStamp && mail.HasReturnToSenderStamp)
             {
-                Debug.Log("yum");
+                GameManager.Instance.AddScore(1);
             }
             else
             {

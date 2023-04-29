@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Util.Attributes;
 using Util.Helpers;
+using Util.Systems;
 using Random = UnityEngine.Random;
 
 namespace LD53.Gameplay
@@ -27,7 +28,11 @@ namespace LD53.Gameplay
 
         [Header("Spawning")] 
         [SerializeField] private Vector2 _spawnIntervalRange = Vector2.up;
+        [SerializeField] private AnimationCurve _spawnRateCurve;
         [SerializeField, ReadOnly] private float _spawnTimer = 0f;
+        [SerializeField] private bool _useCurve = false;
+
+        [SerializeField] public bool Active = true;
 
         private Array _mailTypes;
 
@@ -43,12 +48,23 @@ namespace LD53.Gameplay
 
         void Update()
         {
+            if (Active == false || GameSystem.Instance.IsPlaying() == false) return;
+
             if (_spawnTimer <= 0f)
             {
                 // spawn new
                 SpawnMail();
 
-                _spawnTimer = GetRandomFromRange(_spawnIntervalRange);
+
+                if (_useCurve)
+                {
+                    var t = GameManager.Instance.TimerStartDuration - GameManager.Instance.TimerRemaining;
+                    _spawnTimer = _spawnRateCurve.Evaluate(t);
+                }
+                else
+                {
+                    _spawnTimer = GetRandomFromRange(_spawnIntervalRange);
+                }
             }
             else
             {

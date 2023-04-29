@@ -7,8 +7,13 @@ namespace LD53.Gameplay
     {
         public bool Receive(Mail mail)
         {
-            mail.StampReturnToSender();
-            return true;
+            if (mail.HasReturnToSenderStamp == false)
+            {
+                mail.StampReturnToSender();
+                return true;
+            }
+            
+            return false;
         }
 
     }

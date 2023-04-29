@@ -1,4 +1,5 @@
 ﻿using LD53.Gameplay;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Util.GameEvents;
@@ -11,10 +12,12 @@ namespace LD53.UI.UIControllers
     {
         [Header("bruh")]
         [SerializeField] private Slider _timerSlider;
+        [SerializeField] private TextMeshProUGUI _scoreText;
         [SerializeField] private UIPage _pauseMenu;
 
         [Header("Event Listeners")] 
         [SerializeField] private VoidGameEventSO _pauseGameEvent = default;
+        [SerializeField] private IntGameEventSO _setScoreGameEvent = default;
 
         void Start()
         {
@@ -24,11 +27,13 @@ namespace LD53.UI.UIControllers
         void OnEnable()
         {
             _pauseGameEvent.OnEventRaised += PauseGame;
+            _setScoreGameEvent.OnEventRaised += SetScore;
         }
 
         void OnDisable()
         {
             _pauseGameEvent.OnEventRaised -= PauseGame;
+            _setScoreGameEvent.OnEventRaised -= SetScore;
         }
         
         void Update()
@@ -45,5 +50,7 @@ namespace LD53.UI.UIControllers
         {
             _canvasController.HideUI(_pauseMenu);
         }
+
+        public void SetScore(int score) => _scoreText.text = score.ToString();
     }
 }

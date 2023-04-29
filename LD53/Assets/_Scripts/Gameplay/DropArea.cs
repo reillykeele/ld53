@@ -12,7 +12,7 @@ namespace LD53.Gameplay
             // TODO: Process mail
             if (mail.HasPostage && mail.HasReceivedStamp && mail.HasReturnToSenderStamp == false && mail.MailType == _acceptedMailType)
             {
-                Debug.Log("yum");
+                GameManager.Instance.AddScore(1);
             }
             else
             {

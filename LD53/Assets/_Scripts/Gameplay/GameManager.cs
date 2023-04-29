@@ -11,10 +11,15 @@ namespace LD53.Gameplay
 {
     public class GameManager : Singleton<GameManager>
     {
+        [Header("Event Dispatchers")]
+        [SerializeField] private IntGameEventSO _setScoreGameEvent;
         [SerializeField] private VoidGameEventSO _timesUpGameEvent;
 
+        [Header("config")]
         [SerializeField] public float TimerStartDuration;
         [SerializeField, ReadOnly] public float TimerRemaining;
+
+        [SerializeField, ReadOnly] private int _score;
 
         void Start()
         {
@@ -49,6 +54,12 @@ namespace LD53.Gameplay
             }
 
             return maxSortOrder;
+        }
+
+        public void AddScore(int points)
+        {
+            _score += points;
+            _setScoreGameEvent.RaiseEvent(_score);
         }
     }
 }
