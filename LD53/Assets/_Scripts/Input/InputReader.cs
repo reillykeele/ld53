@@ -40,9 +40,9 @@ namespace LD53.Input
 				_gameInput.Menu.SetCallbacks(this);
 
 				// Default
-				// EnableGameplayInput();
-                EnableMenuInput();
-			}
+				EnableGameplayInput();
+                // EnableMenuInput();
+            }
         }
 
 		private void OnDisable()

@@ -41,6 +41,16 @@ namespace Util.Systems
             _inputReader = (IInputReader) _inputReaderSO;
         }
 
+        void OnEnable()
+        {
+            _inputReader.MenuPauseEvent += PauseGame;
+        }
+
+        void OnDisable()
+        {
+            _inputReader.MenuPauseEvent -= PauseGame;
+        }
+
         public void ChangeGameState(GameState newGameState)
         {
             if (_currentGameState == newGameState)

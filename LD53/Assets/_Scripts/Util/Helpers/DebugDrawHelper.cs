@@ -5,6 +5,18 @@ namespace Util.Helpers
 {
     public static class DebugDrawHelper
     {
+        #region Square
+
+        public static void DrawSquare(Vector3 tl, Vector3 tr, Vector3 bl, Vector3 br, Color c)
+        {
+            Debug.DrawLine(tl, tr, c);
+            Debug.DrawLine(tl, bl, c);
+            Debug.DrawLine(tr, br, c);
+            Debug.DrawLine(bl, br, c);
+        }
+
+        #endregion
+
         #region Sphere
 
         public static void DrawPoint(Vector3 center, float radius, Color color, float duration = 0)
