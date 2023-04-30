@@ -371,7 +371,7 @@ PrefabInstance:
     - target: {fileID: 3792595726709925639, guid: ea6cec146a083af4a9cfcaa1f7fd8b9e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 487.5
       objectReference: {fileID: 0}
     - target: {fileID: 3792595726709925639, guid: ea6cec146a083af4a9cfcaa1f7fd8b9e,
         type: 3}
@@ -471,7 +471,7 @@ PrefabInstance:
     - target: {fileID: 4327355054173088670, guid: ea6cec146a083af4a9cfcaa1f7fd8b9e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 487.5
       objectReference: {fileID: 0}
     - target: {fileID: 4327355054173088670, guid: ea6cec146a083af4a9cfcaa1f7fd8b9e,
         type: 3}
@@ -546,7 +546,7 @@ PrefabInstance:
     - target: {fileID: 4558645515723821075, guid: ea6cec146a083af4a9cfcaa1f7fd8b9e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 487.5
       objectReference: {fileID: 0}
     - target: {fileID: 4558645515723821075, guid: ea6cec146a083af4a9cfcaa1f7fd8b9e,
         type: 3}
@@ -656,7 +656,7 @@ PrefabInstance:
     - target: {fileID: 6398674585149394987, guid: ea6cec146a083af4a9cfcaa1f7fd8b9e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 487.5
       objectReference: {fileID: 0}
     - target: {fileID: 6398674585149394987, guid: ea6cec146a083af4a9cfcaa1f7fd8b9e,
         type: 3}
@@ -3486,7 +3486,7 @@ PrefabInstance:
     - target: {fileID: 200217231528272341, guid: 4bd8922f2d8c57b4ea8bd69366bcb918,
         type: 3}
       propertyPath: m_text
-      value: Times Up!
+      value: Time's Up!
       objectReference: {fileID: 0}
     - target: {fileID: 200217231528272341, guid: 4bd8922f2d8c57b4ea8bd69366bcb918,
         type: 3}
@@ -3845,7 +3845,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Times Up!
+  m_text: Time's Up!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 880d47aaacc38d6478a9a82fd5968105, type: 2}
   m_sharedMaterial: {fileID: 4082425865360476662, guid: 880d47aaacc38d6478a9a82fd5968105,
