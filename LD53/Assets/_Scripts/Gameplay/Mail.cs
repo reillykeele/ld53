@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using Util.Attributes;
 using Util.Helpers;
 using Util.Systems;
+using Random = UnityEngine.Random;
 
 namespace LD53.Gameplay
 {
@@ -33,6 +34,8 @@ namespace LD53.Gameplay
         [SerializeField] private float _moveDelta = 1f;
         [SerializeField] private float _rotationDelta = 1f;
         [SerializeField] private float _fadeDelta = 1f;
+
+        [SerializeField, Min(0f)] private float _minOverlapDistance = 0f;
 
         [Header("Components")]
         [SerializeField] private SpriteRenderer _address;
@@ -67,11 +70,12 @@ namespace LD53.Gameplay
         [SerializeField, ReadOnly] public bool _spawnMoveFinished = false;
         [SerializeField, ReadOnly] public bool _spawnRotateFinished = false;
 
-        [Header("Deposit Animation")] 
+        [Header("Deposit Animation")]
         [SerializeField] private float _scaleOutDuration = 1f;
 
         [Header("Other")] 
         [SerializeField] private List<MailColorMap> _colorMap;
+        [SerializeField] private Sprite[] _postageStamps;
 
         [Header("Debug")]
         [SerializeField, ReadOnly] public bool IsHovering = false;
@@ -83,10 +87,15 @@ namespace LD53.Gameplay
 
         private Camera _camera;
         private Vector3 _pivotOffset;
-        
+
+        private Collider2D[] _overlaps = new Collider2D[32];
+        private ContactFilter2D _filter;
+
         void Awake()
         {
             _collider =  GetComponent<Collider2D>();
+
+            _filter = new ContactFilter2D() { useLayerMask = true, layerMask = LayerMask.GetMask("Bin") };
         }
 
         void Start()
@@ -100,8 +109,18 @@ namespace LD53.Gameplay
 
             // setup mail
             _address.color = _colorMap.FirstOrDefault(x => MailType == x.MailType).color;
-            
-            _postage.gameObject.SetActive(HasPostage);
+
+            if (HasPostage)
+            {
+                _postage.gameObject.Enable();
+
+                _postage.sprite = _postageStamps[Random.Range(0, _postageStamps.Length)];
+            }
+            else
+            {
+                _postage.gameObject.Disable();
+            }
+
             _receivedStamp.gameObject.Disable();
             _returnToSenderStamp.gameObject.Disable();
             
@@ -180,14 +199,10 @@ namespace LD53.Gameplay
             var overlaps = new List<Collider2D>();
             _collider.OverlapCollider(new ContactFilter2D(), overlaps);
 
-            foreach (var col in overlaps)
+            var col = GetNearestOverlappingCollider();
+            if (col?.TryGetComponent<IReceivable>(out var receivable) == true)
             {
-                if (col.TryGetComponent<IReceivable>(out var receivable))
-                {
-                    // try and receive
-                    if (receivable.Receive(this))
-                        break;
-                }
+                receivable.Receive(this);
             }
 
             // reset sort order to top of stack
@@ -203,7 +218,6 @@ namespace LD53.Gameplay
 
             transform.position = new Vector3(transform.position.x, transform.position.y, GameManager.Instance.GetClippingPlaneZ() + 0.1f);
             
-
             _pivotOffset = transform.position - GetMousePosition();
 
             _outline.gameObject.Disable();
@@ -214,6 +228,22 @@ namespace LD53.Gameplay
             var newPosition = GetMousePosition() + _pivotOffset;
             newPosition.z = transform.position.z;
             transform.position = Vector3.MoveTowards(transform.position, newPosition, _moveDelta);
+
+            IReceivable receivable;
+            var bins = Physics2D.OverlapAreaNonAlloc(new Vector2(-25, -25), new Vector2(25, 25), _overlaps, _filter.layerMask);
+            for (int i = 0; i < bins; i++)
+            {
+                if (_overlaps[i].TryGetComponent<IReceivable>(out receivable))
+                {
+                    receivable.Unhighlight();
+                }
+            }
+
+            var col = GetNearestOverlappingCollider();
+            if (col?.TryGetComponent<IReceivable>(out receivable) == true)
+            {
+                receivable.Highlight();
+            }
         }
 
         private Vector3 GetMousePosition()
@@ -225,6 +255,31 @@ namespace LD53.Gameplay
             pos.z = 0f;
 
             return pos;
+        }
+
+        private Collider2D GetNearestOverlappingCollider()
+        {
+            var numOverlaps = _collider.OverlapCollider(_filter, _overlaps);
+
+            Collider2D col = null;
+            for (int i = 0; i < numOverlaps; i++)
+            {
+                if (col == null)
+                {
+                    var dist = _collider.Distance(_overlaps[i]);
+
+                    col = dist.distance <= -_minOverlapDistance ? _overlaps[i] : null;
+                    continue;
+                }
+
+                var dist1 = _collider.Distance(col);
+                var dist2 = _collider.Distance(_overlaps[i]);
+
+                if (dist2.distance < dist1.distance)
+                    col = _overlaps[i];
+            }
+
+            return col;
         }
 
         #endregion

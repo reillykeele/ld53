@@ -3,5 +3,7 @@
     public interface IReceivable
     {
         bool Receive(Mail mail);
+        void Highlight();
+        void Unhighlight();
     }
 }

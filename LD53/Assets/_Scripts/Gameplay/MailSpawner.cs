@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using Util.Attributes;
+using Util.GameEvents;
 using Util.Helpers;
 using Util.Pooling;
 using Util.Systems;
@@ -36,8 +37,10 @@ namespace LD53.Gameplay
         [SerializeField] private AnimationCurve _spawnRateCurve;
         [SerializeField, ReadOnly] private float _spawnTimer = 0f;
         [SerializeField] private bool _useCurve = false;
-
         [SerializeField] public bool Active = true;
+
+        [Header("Event Listeners")] 
+        [SerializeField] private VoidGameEventSO _timesUpGameEvent;
 
         private Array _mailTypes;
 
@@ -53,7 +56,15 @@ namespace LD53.Gameplay
             }
         }
 
-        protected override Mail CreateSetup() => Instantiate(_mailPrefab, _mailParent);
+        void OnEnable()
+        {
+            _timesUpGameEvent.OnEventRaised += DeactivateSpawner;
+        }
+
+        void OnDisable()
+        {
+            _timesUpGameEvent.OnEventRaised -= DeactivateSpawner;
+        }
 
         void Update()
         {
@@ -79,6 +90,8 @@ namespace LD53.Gameplay
                 _spawnTimer -= Time.deltaTime;
             }
         }
+
+        protected override Mail CreateSetup() => Instantiate(_mailPrefab, _mailParent);
 
         private void SpawnMail()
         {
@@ -123,6 +136,9 @@ namespace LD53.Gameplay
             mail.HasPostage = Random.value <= _postageRate;
             mail.MailType = (MailType)_mailTypes.GetValue(Random.Range(0, _mailTypes.Length));
         }
+
+        private void ActivateSpawner() => Active = true;
+        private void DeactivateSpawner() => Active = false;
 
         void OnDrawGizmos()
         {

@@ -552,16 +552,18 @@ MonoBehaviour:
   _moveDelta: 1
   _rotationDelta: 0.4
   _fadeDelta: 0.025
+  _minOverlapDistance: 1
   _address: {fileID: 9016081133845568994}
   _postage: {fileID: 1813969795000746825}
   _receivedStamp: {fileID: 2185989739586848222}
   _returnToSenderStamp: {fileID: 8260350010323869200}
   _outline: {fileID: 673989323607439027}
   _highlight: {fileID: 3908302226771789543}
+  Spawner: {fileID: 0}
+  MailType: 0
   HasPostage: 0
   HasReceivedStamp: 0
   HasReturnToSenderStamp: 0
-  MailType: 0
   _spawnMoveDuration: 0.5
   _spawnRotationDuration: 0.5
   _spawnMoveEase: 2
@@ -570,6 +572,7 @@ MonoBehaviour:
   GoalRotation: {x: 0, y: 0, z: 0, w: 0}
   _spawnMoveFinished: 0
   _spawnRotateFinished: 0
+  _scaleOutDuration: 0.25
   _colorMap:
   - MailType: 0
     color: {r: 0, g: 0.80392164, b: 0.9725491, a: 1}
@@ -579,9 +582,15 @@ MonoBehaviour:
     color: {r: 1, g: 0.7803922, b: 0.14901961, a: 1}
   - MailType: 3
     color: {r: 0.4784314, g: 0.050980397, b: 0.9803922, a: 1}
+  _postageStamps:
+  - {fileID: 21300000, guid: 0792a53a2efe6694c91ef2b007e5d62b, type: 3}
+  - {fileID: 21300000, guid: 3cde2b811bb872946887edf9d30ac67c, type: 3}
+  - {fileID: 21300000, guid: 7b78cce33bc57a84f863e87566b0e933, type: 3}
+  - {fileID: 21300000, guid: dd29ccd7ad6cd1d478c715bcb9584b7c, type: 3}
   IsHovering: 0
   IsDragging: 0
   IsSpawning: 0
+  IsDeposited: 0
 --- !u!1 &7117062274463007461
 GameObject:
   m_ObjectHideFlags: 0
@@ -655,7 +664,7 @@ SpriteRenderer:
   m_SortingLayerID: 1763509441
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0792a53a2efe6694c91ef2b007e5d62b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dd29ccd7ad6cd1d478c715bcb9584b7c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
