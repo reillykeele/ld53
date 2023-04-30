@@ -933,7 +933,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Title
+  m_text: Snail Mail
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 880d47aaacc38d6478a9a82fd5968105, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: e042aca8134824c458a659c6ef07fd12, type: 2}
@@ -1212,7 +1212,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6330964568192752745, guid: 4b5cf2736a995424b91285bd6ea03fb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 703161570}
   m_SourcePrefab: {fileID: 100100000, guid: 4b5cf2736a995424b91285bd6ea03fb6, type: 3}
 --- !u!224 &703161568 stripped
 RectTransform:
@@ -1220,6 +1224,26 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 703161567}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &703161569 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6330964568192752745, guid: 4b5cf2736a995424b91285bd6ea03fb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 703161567}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &703161570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 703161569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7c58dd1dd448f94386abd9de1353d0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetScene: Tutorial
+  Delay: 0
 --- !u!1 &719832823
 GameObject:
   m_ObjectHideFlags: 0
@@ -1766,8 +1790,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: d200861008a159d40a8f863660284bb4, type: 2}
-  m_Color: {r: 0.21048418, g: 0.36276475, b: 0.8113208, a: 1}
+  m_Material: {fileID: 2100000, guid: b78bebe8d61ea674c83e545c3841aa17, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3204,7 +3228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _menuInputReaderSO: {fileID: 11400000, guid: c390853b390e5fe4d88375dc8397cbaa, type: 2}
   _defaultUiPage: {fileID: 11400000, guid: 44a81b9c1fef9344aa0d35ca28817087, type: 2}
-  _setGameStateOnStart: 1
+  _setMenuGameStateOnStart: 1
   _uiControllers: []
 --- !u!1001 &1744550568
 PrefabInstance:

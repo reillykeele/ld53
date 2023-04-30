@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468a46d0ae32c3544b7d98094e6448a9, type: 3}
   m_Name: AddressableAssetSettings
   m_EditorClassIdentifier: 
-  m_DefaultGroup: faab62b3b00cdb241af4c8d867b56f14
+  m_DefaultGroup: a6a2b43bca0fdc94f8d8687030f42483
   m_currentHash:
     serializedVersion: 2
-    Hash: 39926702c74de5872996533f2a43b03e
+    Hash: 2ad69e92fbbea22a437159f3d5ea37b2
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0

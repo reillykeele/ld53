@@ -552,7 +552,7 @@ MonoBehaviour:
   _moveDelta: 1
   _rotationDelta: 0.4
   _fadeDelta: 0.025
-  _minOverlapDistance: 1
+  _minOverlapDistance: 2
   _address: {fileID: 9016081133845568994}
   _postage: {fileID: 1813969795000746825}
   _receivedStamp: {fileID: 2185989739586848222}

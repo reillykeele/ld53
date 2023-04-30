@@ -112,7 +112,7 @@ namespace Util.Systems
         /// Unloads all currently loaded scenes to load in the specified scene. Displays a loading screen while
         /// loading in the new scene.
         /// </summary>
-        /// <param name="scene">The scene to load in.</param>
+        /// <param name="sceneName">The scene to load in.</param>
         public void LoadScene(string sceneName)
         {
             StartCoroutine(LoadSceneCoroutine(sceneName));
@@ -123,8 +123,19 @@ namespace Util.Systems
         /// loading in the new scene.
         /// </summary>
         /// <param name="scene">The scene to load in.</param>
+        /// <param name="manuallyEndLoading"></param>
+        public void LoadScene(string sceneName, bool manuallyEndLoading)
+        {
+            StartCoroutine(LoadSceneCoroutine(sceneName, manuallyEndLoading));
+        }
+
+        /// <summary>
+        /// Unloads all currently loaded scenes to load in the specified scene. Displays a loading screen while
+        /// loading in the new scene.
+        /// </summary>
+        /// <param name="sceneName">The scene to load in.</param>
         /// <returns></returns>
-        public IEnumerator LoadSceneCoroutine(string sceneName, bool manuallyEndLoading = false)
+        private IEnumerator LoadSceneCoroutine(string sceneName, bool manuallyEndLoading = false)
         {
             return CoroutineUtil.Sequence(
                 SetLoading(true),

@@ -39,7 +39,8 @@ namespace LD53.Gameplay
         [SerializeField] private bool _useCurve = false;
         [SerializeField] public bool Active = true;
 
-        [Header("Event Listeners")] 
+        [Header("Event Listeners")]
+        [SerializeField] private VoidGameEventSO _mailStartGameEvent;
         [SerializeField] private VoidGameEventSO _timesUpGameEvent;
 
         private Array _mailTypes;
@@ -58,11 +59,13 @@ namespace LD53.Gameplay
 
         void OnEnable()
         {
+            _mailStartGameEvent.OnEventRaised += ActivateSpawner;
             _timesUpGameEvent.OnEventRaised += DeactivateSpawner;
         }
 
         void OnDisable()
         {
+            _mailStartGameEvent.OnEventRaised -= ActivateSpawner;
             _timesUpGameEvent.OnEventRaised -= DeactivateSpawner;
         }
 
@@ -107,6 +110,7 @@ namespace LD53.Gameplay
 
             mail.transform.position = spawnPos;
             mail.transform.rotation = spawnRot;
+            mail.transform.localScale = new Vector3(1.5f, 1.5f, 1.0f);
 
             mail.HasPostage = Random.value <= _postageRate;
             mail.MailType = (MailType) _mailTypes.GetValue(Random.Range(0, _mailTypes.Length));
@@ -116,6 +120,8 @@ namespace LD53.Gameplay
             mail.GoalPosition =  GetRandomXYFromRange(_minArea, _maxArea);
             mail.GoalPosition.z = z;
             mail.GoalRotation = Quaternion.Euler(0f, 0f, Random.Range(-_randomRotation, _randomRotation));
+
+            mail.Init();
         }
 
         private void SpawnInitialMail()
@@ -137,8 +143,18 @@ namespace LD53.Gameplay
             mail.MailType = (MailType)_mailTypes.GetValue(Random.Range(0, _mailTypes.Length));
         }
 
-        private void ActivateSpawner() => Active = true;
-        private void DeactivateSpawner() => Active = false;
+        private void ActivateSpawner()
+        {
+            var t = GameManager.Instance.TimerStartDuration - GameManager.Instance.TimerRemaining;
+            _spawnTimer = _spawnRateCurve.Evaluate(t);
+
+            Active = true;
+        }
+
+        private void DeactivateSpawner()
+        {
+            Active = false;
+        }
 
         void OnDrawGizmos()
         {

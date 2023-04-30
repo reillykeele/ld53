@@ -102,6 +102,11 @@ namespace LD53.Gameplay
         {
             _camera = Camera.main;
 
+            Init();
+        }
+
+        public void Init()
+        {
             // set properties to default
             IsHovering = false;
             IsDragging = false;
@@ -121,9 +126,12 @@ namespace LD53.Gameplay
                 _postage.gameObject.Disable();
             }
 
+            HasReceivedStamp = false;
+            HasReturnToSenderStamp = false;
+
             _receivedStamp.gameObject.Disable();
             _returnToSenderStamp.gameObject.Disable();
-            
+
             _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, 0f);
 
             // spawn animation
@@ -140,7 +148,6 @@ namespace LD53.Gameplay
                 _spawnRotateTween.setOnComplete(FinishSpawnRotate);
             }
         }
-
         void Update()
         {
             if (GameSystem.Instance.IsPlaying() == false) return;
@@ -178,6 +185,8 @@ namespace LD53.Gameplay
 
         void OnMouseEnter()
         {
+            if (GameSystem.Instance.IsPlaying() == false) return;
+
             // TODO: Highlight effect
             IsHovering = true;
 
@@ -186,6 +195,8 @@ namespace LD53.Gameplay
 
         void OnMouseExit()
         {
+            if (GameSystem.Instance.IsPlaying() == false) return;
+
             IsHovering = false;
 
             if (IsDragging == false)
@@ -194,13 +205,22 @@ namespace LD53.Gameplay
 
         void OnMouseUp()
         {
+            if (GameSystem.Instance.IsPlaying() == false) return;
+
             IsDragging = false;
 
-            var overlaps = new List<Collider2D>();
-            _collider.OverlapCollider(new ContactFilter2D(), overlaps);
+            IReceivable receivable;
+            var bins = Physics2D.OverlapAreaNonAlloc(new Vector2(-25, -25), new Vector2(25, 25), _overlaps, _filter.layerMask);
+            for (int i = 0; i < bins; i++)
+            {
+                if (_overlaps[i].TryGetComponent<IReceivable>(out receivable))
+                {
+                    receivable.Unhighlight();
+                }
+            }
 
             var col = GetNearestOverlappingCollider();
-            if (col?.TryGetComponent<IReceivable>(out var receivable) == true)
+            if (col?.TryGetComponent<IReceivable>(out receivable) == true)
             {
                 receivable.Receive(this);
             }
@@ -214,6 +234,8 @@ namespace LD53.Gameplay
 
         void OnMouseDown()
         {
+            if (GameSystem.Instance.IsPlaying() == false) return;
+
             IsDragging = true;
 
             transform.position = new Vector3(transform.position.x, transform.position.y, GameManager.Instance.GetClippingPlaneZ() + 0.1f);
@@ -225,6 +247,8 @@ namespace LD53.Gameplay
 
         void OnMouseDrag()
         {
+            if (GameSystem.Instance.IsPlaying() == false) return;
+
             var newPosition = GetMousePosition() + _pivotOffset;
             newPosition.z = transform.position.z;
             transform.position = Vector3.MoveTowards(transform.position, newPosition, _moveDelta);
@@ -283,12 +307,7 @@ namespace LD53.Gameplay
         }
 
         #endregion
-
-        void OnCollisionEnter(Collision collision)
-        {
-
-        }
-
+        
         public void StampReceived()
         {
             HasReceivedStamp = true;

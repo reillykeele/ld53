@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1711660631362933407
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6210827645638476864}
+  - component: {fileID: 7474564080525250274}
+  m_Layer: 0
+  m_Name: MailSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6210827645638476864
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711660631362933407}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7474564080525250274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711660631362933407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c95c0747059c2df4aa704d31b6ab8498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mailParent: {fileID: 0}
+  _mailPrefab: {fileID: 3543001067992667125, guid: 50567577d0e66c946b93ff81a03c438d,
+    type: 3}
+  _initialMailToSpawn: 3
+  _initialPoolSize: 100
+  _maxPoolSize: 500
+  _postageRate: 0.75
+  _minSpawn: {x: 17, y: 4}
+  _maxSpawn: {x: 20, y: -4}
+  _minArea: {x: 4, y: 6}
+  _maxArea: {x: 12, y: -6}
+  _randomRotation: 15
+  _spawnIntervalRange: {x: 0.5, y: 1.5}
+  _spawnRateCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: Infinity
+      outSlope: -0.0002594046
+      tangentMode: 7
+      weightedMode: 3
+      inWeight: 0.33352345
+      outWeight: 0.7655987
+    - serializedVersion: 3
+      time: 60
+      value: 0.01
+      inSlope: -0.05091516
+      outSlope: -0.05091516
+      tangentMode: 0
+      weightedMode: 1
+      inWeight: 0.13874668
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _spawnTimer: 0
+  _useCurve: 1
+  Active: 0
+  _mailStartGameEvent: {fileID: 11400000, guid: ba5d067b022789540ad4e3597a8d8007,
+    type: 2}
+  _timesUpGameEvent: {fileID: 11400000, guid: 3bb2dee15f703844682845b16c5c6e26, type: 2}

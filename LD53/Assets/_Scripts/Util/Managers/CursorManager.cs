@@ -15,6 +15,7 @@ namespace Util.Managers
 
         [Header("Cursor Sprites")]
         [SerializeField] private CursorData _menuCursor;
+        [SerializeField] private CursorData _playCursor;
 
         // private bool _isVisible = true;
 
@@ -49,6 +50,11 @@ namespace Util.Managers
             {
                 // Display menu cursor
                 SetCursor(_menuCursor);
+            }
+
+            if (state is GameState.Cutscene or GameState.Cutscene)
+            {
+                SetCursor(_playCursor);
             }
         }
 

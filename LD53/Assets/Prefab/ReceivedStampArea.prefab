@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 948865983690432652}
   - component: {fileID: 1644493048805261295}
   m_Layer: 7
-  m_Name: ReturnToSenderStampArea (1)
+  m_Name: highlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

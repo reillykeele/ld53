@@ -12,7 +12,7 @@ namespace LD53.UI.ButtonControllers
         protected override void OnClick()
         {
             // _canvasAudioController?.FadeOutBackgroundMusic();
-            StartCoroutine(CoroutineUtil.WaitForExecute(() => LoadingSystem.Instance.LoadSceneCoroutine(TargetScene), Delay));
+            StartCoroutine(CoroutineUtil.WaitForExecute(() => LoadingSystem.Instance.LoadScene(TargetScene), Delay));
         }
     }
 }
