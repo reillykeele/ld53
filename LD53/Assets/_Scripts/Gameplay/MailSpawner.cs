@@ -2,17 +2,22 @@ using System;
 using UnityEngine;
 using Util.Attributes;
 using Util.Helpers;
+using Util.Pooling;
 using Util.Systems;
 using Random = UnityEngine.Random;
 
 namespace LD53.Gameplay
 {
-    public class MailSpawner : MonoBehaviour
+    public class MailSpawner : BasePool<Mail>
     {
         [SerializeField] private Transform _mailParent;
         [SerializeField, PrefabOnly] private Mail _mailPrefab;
 
-        [SerializeField] private int _mailToSpawn = 1;
+        [SerializeField] private int _initialMailToSpawn = 1;
+
+        [Header("Object Pool Settings")] 
+        [SerializeField] private int _initialPoolSize = 250;
+        [SerializeField] private int _maxPoolSize = 500;
 
         [Header("Spawn Settings")] 
         [SerializeField, Range(0f, 1f)] private float _postageRate = 1f;
@@ -38,13 +43,17 @@ namespace LD53.Gameplay
 
         void Start()
         {
+            InitPool(_mailPrefab, _initialPoolSize, _maxPoolSize);
+
             _mailTypes = Enum.GetValues(typeof(MailType));
             
-            // for (var i = 0; i < _mailToSpawn; i++)
-            // {
-            //     SpawnMail();
-            // }
+            for (var i = 0; i < _initialMailToSpawn; i++)
+            {
+                SpawnInitialMail();
+            }
         }
+
+        protected override Mail CreateSetup() => Instantiate(_mailPrefab, _mailParent);
 
         void Update()
         {
@@ -54,7 +63,6 @@ namespace LD53.Gameplay
             {
                 // spawn new
                 SpawnMail();
-
 
                 if (_useCurve)
                 {
@@ -74,18 +82,46 @@ namespace LD53.Gameplay
 
         private void SpawnMail()
         {
+            var z = GameManager.Instance.GetTopZ(); // TODO: FIND A BETTER WAY
+
             var spawnPos = GetRandomXYFromRange(_minSpawn, _maxSpawn);
+            spawnPos.z = z;
             var spawnRot = Quaternion.Euler(0f, 0f, Random.Range(-_randomRotation, _randomRotation));
 
-            var mail = Instantiate(_mailPrefab, spawnPos, spawnRot, _mailParent);
+            var mail = Get();
+
+            mail.Spawner = this;
+
+            mail.transform.position = spawnPos;
+            mail.transform.rotation = spawnRot;
 
             mail.HasPostage = Random.value <= _postageRate;
             mail.MailType = (MailType) _mailTypes.GetValue(Random.Range(0, _mailTypes.Length));
-            mail.SortOrder = GameManager.Instance.GetHighestSortingOrder() + 1; // TODO: FIND A BETTER WAY
 
-            // setup the animation vals
+            // setup the spawn animation vals
+            mail.IsSpawning = true;
             mail.GoalPosition =  GetRandomXYFromRange(_minArea, _maxArea);
+            mail.GoalPosition.z = z;
             mail.GoalRotation = Quaternion.Euler(0f, 0f, Random.Range(-_randomRotation, _randomRotation));
+        }
+
+        private void SpawnInitialMail()
+        {
+            var z = GameManager.Instance.GetTopZ(); // TODO: FIND A BETTER WAY
+
+            var spawnPos = GetRandomXYFromRange(_minArea, _maxArea);
+            spawnPos.z = z;
+            var spawnRot = Quaternion.Euler(0f, 0f, Random.Range(-_randomRotation, _randomRotation));
+
+            var mail = Get();
+
+            mail.Spawner = this;
+
+            mail.transform.position = spawnPos;
+            mail.transform.rotation = spawnRot;
+
+            mail.HasPostage = Random.value <= _postageRate;
+            mail.MailType = (MailType)_mailTypes.GetValue(Random.Range(0, _mailTypes.Length));
         }
 
         void OnDrawGizmos()

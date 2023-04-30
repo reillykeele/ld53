@@ -19,7 +19,7 @@ namespace Util.UI.Controllers
 
         [Header("Configuration")]
         [SerializeField] protected UIPage _defaultUiPage;
-        [SerializeField] protected bool _setGameStateOnStart = true;
+        [SerializeField] protected bool _setMenuGameStateOnStart = true;
 
         [Header("Data")]
         [SerializeField, ReadOnly] protected List<UIController> _uiControllers;
@@ -56,7 +56,7 @@ namespace Util.UI.Controllers
 
             EnableUI(_defaultUiPage);
 
-            if (_setGameStateOnStart == true)
+            if (_setMenuGameStateOnStart == true)
                 GameSystem.Instance.ChangeGameState(GameState.Menu);
         }
 

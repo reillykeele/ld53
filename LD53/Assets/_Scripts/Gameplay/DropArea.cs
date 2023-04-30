@@ -19,7 +19,7 @@ namespace LD53.Gameplay
                 Debug.Log("bleh");
             }
 
-            Destroy(mail.gameObject);
+            mail.DepositInBin();
             return true;
         }
     }

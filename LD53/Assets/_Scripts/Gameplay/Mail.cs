@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using LD53.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -17,10 +18,18 @@ namespace LD53.Gameplay
         Purple = 3
     }
 
+    [Serializable]
+    public struct MailColorMap
+    {
+        public MailType MailType;
+        public Color color;
+    }
+
     [RequireComponent(typeof(Collider2D))]
     public class Mail : MonoBehaviour
     {
         [SerializeField] private InputReader _inputReader;
+        
         [SerializeField] private float _moveDelta = 1f;
         [SerializeField] private float _rotationDelta = 1f;
         [SerializeField] private float _fadeDelta = 1f;
@@ -35,82 +44,82 @@ namespace LD53.Gameplay
         [SerializeField] private SpriteRenderer _outline;
         [SerializeField] private SpriteRenderer _highlight;
 
-        [Header("Properties")]
+        [Header("Properties")] 
+        [SerializeField, ReadOnly] public MailSpawner Spawner;
+        [SerializeField, ReadOnly] public MailType MailType;
         [SerializeField, ReadOnly] public bool HasPostage;
         [SerializeField, ReadOnly] public bool HasReceivedStamp;
         [SerializeField, ReadOnly] public bool HasReturnToSenderStamp;
-        [SerializeField, ReadOnly] public MailType MailType;
-        [SerializeField, ReadOnly] public int SortOrder;
 
         [Header("Spawn Animation")]
         [SerializeField] private float _spawnMoveDuration = 1f;
         [SerializeField] private float _spawnRotationDuration = 1f;
+        [Space(5f)]
         [SerializeField] private LeanTweenType _spawnMoveEase = LeanTweenType.notUsed;
         [SerializeField] private LeanTweenType _spawnRotationEase = LeanTweenType.notUsed;
+        [Space(5f)]
         [SerializeField, ReadOnly] public Vector3 GoalPosition;
         [SerializeField, ReadOnly] public Quaternion GoalRotation;
+        [Space(5f)]
         [SerializeField, ReadOnly] public LTDescr _spawnMoveTween;
         [SerializeField, ReadOnly] public LTDescr _spawnRotateTween;
+        [Space(5f)]
         [SerializeField, ReadOnly] public bool _spawnMoveFinished = false;
         [SerializeField, ReadOnly] public bool _spawnRotateFinished = false;
+
+        [Header("Deposit Animation")] 
+        [SerializeField] private float _scaleOutDuration = 1f;
+
+        [Header("Other")] 
+        [SerializeField] private List<MailColorMap> _colorMap;
+
+        [Header("Debug")]
+        [SerializeField, ReadOnly] public bool IsHovering = false;
+        [SerializeField, ReadOnly] public bool IsDragging = false;
+        [SerializeField, ReadOnly] public bool IsSpawning = false;
+        [SerializeField, ReadOnly] public bool IsDeposited = false;
 
         private Collider2D _collider;
 
         private Camera _camera;
         private Vector3 _pivotOffset;
-
-        // temp
-        private SpriteRenderer[] _spriteRenderers;
-
-        [Header("Debug")]
-        [SerializeField, ReadOnly] private bool _isHovering = false;
-        [SerializeField, ReadOnly] private bool _isDragging = false;
-        [SerializeField, ReadOnly] private bool _isSpawning = false;
-
+        
         void Awake()
         {
-            // setup components
             _collider =  GetComponent<Collider2D>();
-
-            // temp
-            _spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
-
-            _receivedStamp.gameObject.Disable();
-            _returnToSenderStamp.gameObject.Disable();
         }
 
         void Start()
         {
             _camera = Camera.main;
 
+            // set properties to default
+            IsHovering = false;
+            IsDragging = false;
+            IsDeposited = false;
+
             // setup mail
-            _address.color = MailType switch
-            {
-                MailType.Blue => Color.blue,
-                MailType.Red => Color.red,
-                MailType.Yellow => Color.yellow,
-                MailType.Purple => Color.magenta,
-
-                _ => Color.black
-            };
-
-            if (HasPostage == false) _postage.gameObject.Disable();
-
+            _address.color = _colorMap.FirstOrDefault(x => MailType == x.MailType).color;
+            
+            _postage.gameObject.SetActive(HasPostage);
+            _receivedStamp.gameObject.Disable();
+            _returnToSenderStamp.gameObject.Disable();
+            
             _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, 0f);
 
             // spawn animation
-            _isSpawning = true;
-            _spawnMoveTween = LeanTween.move(gameObject, GoalPosition, _spawnMoveDuration)
-                .setEase(_spawnMoveEase)
-                .setIgnoreTimeScale(false);
-            _spawnMoveTween.setOnComplete(FinishSpawnMove);
+            if (IsSpawning)
+            {
+                _spawnMoveTween = LeanTween.move(gameObject, GoalPosition, _spawnMoveDuration)
+                    .setEase(_spawnMoveEase)
+                    .setIgnoreTimeScale(false);
+                _spawnMoveTween.setOnComplete(FinishSpawnMove);
 
-            _spawnRotateTween = LeanTween.rotate(gameObject, GoalRotation.eulerAngles, _spawnRotationDuration)
-                .setEase(_spawnRotationEase)
-                .setIgnoreTimeScale(false);
-            _spawnRotateTween.setOnComplete(FinishSpawnRotate);
-
-            UpdateSortOrder();
+                _spawnRotateTween = LeanTween.rotate(gameObject, GoalRotation.eulerAngles, _spawnRotationDuration)
+                    .setEase(_spawnRotationEase)
+                    .setIgnoreTimeScale(false);
+                _spawnRotateTween.setOnComplete(FinishSpawnRotate);
+            }
         }
 
         void Update()
@@ -118,11 +127,11 @@ namespace LD53.Gameplay
             if (GameSystem.Instance.IsPlaying() == false) return;
 
             // highlight
-            if (_isDragging)
+            if (IsDragging)
             {
                 _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 1f, _fadeDelta));
             }
-            else if (_isHovering)
+            else if (IsHovering)
             {
                 _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 0.5f, _fadeDelta));
             }
@@ -132,12 +141,12 @@ namespace LD53.Gameplay
             }
 
             // movement
-            if (_isDragging)
+            if (IsDragging)
             {
                 if (transform.rotation != Quaternion.identity)
                     transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, _rotationDelta);
 
-                if (_isSpawning)
+                if (IsSpawning)
                     StopSpawnAnimation();
             }
             // else if (transform.rotation != GoalRotation)
@@ -151,22 +160,22 @@ namespace LD53.Gameplay
         void OnMouseEnter()
         {
             // TODO: Highlight effect
-            _isHovering = true;
+            IsHovering = true;
 
             _outline.gameObject.Disable();
         }
 
         void OnMouseExit()
         {
-            _isHovering = false;
+            IsHovering = false;
 
-            if (_isDragging == false)
+            if (IsDragging == false)
                 _outline.gameObject.Enable();
         }
 
         void OnMouseUp()
         {
-            _isDragging = false;
+            IsDragging = false;
 
             var overlaps = new List<Collider2D>();
             _collider.OverlapCollider(new ContactFilter2D(), overlaps);
@@ -177,24 +186,23 @@ namespace LD53.Gameplay
                 {
                     // try and receive
                     if (receivable.Receive(this))
-                        return;
+                        break;
                 }
             }
 
             // reset sort order to top of stack
-            SortOrder = GameManager.Instance.GetHighestSortingOrder() + 1;
-            UpdateSortOrder();
+            transform.position = new Vector3(transform.position.x, transform.position.y, GameManager.Instance.GetTopZ());
 
-            if (_isHovering == false)
+            if (IsHovering == false)
                 _outline.gameObject.Enable();
         }
 
         void OnMouseDown()
         {
-            _isDragging = true;
+            IsDragging = true;
 
-            SortOrder = Int16.MaxValue;
-            UpdateSortOrder();
+            transform.position = new Vector3(transform.position.x, transform.position.y, GameManager.Instance.GetClippingPlaneZ() + 0.1f);
+            
 
             _pivotOffset = transform.position - GetMousePosition();
 
@@ -204,6 +212,7 @@ namespace LD53.Gameplay
         void OnMouseDrag()
         {
             var newPosition = GetMousePosition() + _pivotOffset;
+            newPosition.z = transform.position.z;
             transform.position = Vector3.MoveTowards(transform.position, newPosition, _moveDelta);
         }
 
@@ -220,6 +229,11 @@ namespace LD53.Gameplay
 
         #endregion
 
+        void OnCollisionEnter(Collision collision)
+        {
+
+        }
+
         public void StampReceived()
         {
             HasReceivedStamp = true;
@@ -234,26 +248,29 @@ namespace LD53.Gameplay
             _returnToSenderStamp.gameObject.Enable();
         }
 
-        private void UpdateSortOrder()
+        public void DepositInBin()
         {
-            foreach (var render in _spriteRenderers)
-            {
-                render.sortingOrder = SortOrder;
-            }
+            // TODO Play particle effect and sound effect
+            IsDeposited = true;
+
+            var lt = LeanTween.scale(gameObject, Vector3.zero, _scaleOutDuration)
+                .setEase(_spawnMoveEase)
+                .setIgnoreTimeScale(false);
+            lt.setOnComplete(Destroy);
         }
 
         private void FinishSpawnMove()
         {
             _spawnMoveFinished = true;
 
-            if (_spawnRotateFinished) _isSpawning = false;
+            if (_spawnRotateFinished) IsSpawning = false;
         }
 
         private void FinishSpawnRotate()
         {
             _spawnRotateFinished = true;
 
-            if (_spawnMoveFinished) _isSpawning = false;
+            if (_spawnMoveFinished) IsSpawning = false;
         }
 
         private void StopSpawnAnimation()
@@ -261,10 +278,11 @@ namespace LD53.Gameplay
             LeanTween.cancel(_spawnMoveTween.id);
             LeanTween.cancel(_spawnRotateTween.id);
 
-            _isSpawning = false;
+            IsSpawning = false;
         }
 
-
+        private void Destroy() => Spawner.Release(this);
+    
     }
 }
 

@@ -295,7 +295,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 0.92460704, g: 1, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.7843138, b: 0.14509805, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -440,7 +440,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 0.64169836, g: 0, b: 1, a: 1}
+  m_Color: {r: 0.4784314, g: 0.03529412, b: 0.9803922, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -572,7 +572,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 1, g: 0, b: 0.038758278, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.2509804, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1394,7 +1394,9 @@ MonoBehaviour:
   _mailParent: {fileID: 619686383}
   _mailPrefab: {fileID: 3543001067992667125, guid: 50567577d0e66c946b93ff81a03c438d,
     type: 3}
-  _mailToSpawn: 1
+  _initialMailToSpawn: 3
+  _initialPoolSize: 100
+  _maxPoolSize: 500
   _postageRate: 0.75
   _minSpawn: {x: 17, y: 4}
   _maxSpawn: {x: 20, y: -4}
@@ -1626,7 +1628,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _menuInputReaderSO: {fileID: 11400000, guid: c390853b390e5fe4d88375dc8397cbaa, type: 2}
   _defaultUiPage: {fileID: 11400000, guid: 2d5a2a3eeb4d7a645b867b27c41cc014, type: 2}
-  _setGameStateOnStart: 1
+  _setMenuGameStateOnStart: 0
   _uiControllers: []
 --- !u!1001 &497046435
 PrefabInstance:
@@ -2116,7 +2118,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 1, g: 0.38102257, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.3137255, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2375,7 +2377,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 0, g: 0.5030503, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.80392164, b: 0.97647065, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2612,7 +2614,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 060620c28281fe8499f2050d7e67ade3, type: 3}
-  m_Color: {r: 1, g: 0, b: 0.050980397, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.2509804, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3515,6 +3517,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749684509807453558, guid: 542308952031f1e48bc44e88d7be1543,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6656788543531158445, guid: 542308952031f1e48bc44e88d7be1543,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 8666656578571505258, guid: 542308952031f1e48bc44e88d7be1543,
         type: 3}
