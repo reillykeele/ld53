@@ -4,7 +4,7 @@ using Util.UI;
 using Util.UI.Controllers.Selectables.Buttons;
 using Util.UI.Modals;
 
-namespace Template.UI.ButtonControllers
+namespace LD53.UI.ButtonControllers
 {
     public class DisplayPopupModalButtonController : AButtonController
     {

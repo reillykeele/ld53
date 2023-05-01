@@ -21,6 +21,7 @@ namespace Util.Managers
 
         void Start()
         {
+            #if !UNITY_WEBGL
             Cursor.lockState = LockMode;
 
             if (DisplayCursorOnLoadScreen == false)
@@ -32,6 +33,7 @@ namespace Util.Managers
             GameSystem.Instance.OnGameStateChangeEvent.AddListener(OnGameStateChanged);
 
             OnGameStateChanged(GameSystem.Instance.CurrentGameState);
+            #endif
         }
 
         public void ShowCursor()

@@ -30,20 +30,20 @@ namespace LD53.Gameplay
     public class Mail : MonoBehaviour
     {
         [SerializeField] private InputReader _inputReader;
-        
-        [SerializeField] private float _moveDelta = 1f;
-        [SerializeField] private float _rotationDelta = 1f;
-        [SerializeField] private float _fadeDelta = 1f;
-
+        [Space]
+        [SerializeField, Min(0f)] private float _dragMovementPerSecond = 1f;
+        [SerializeField, Min(0f)] private float _dragRotationPerSecond = 1f;
+        [SerializeField, Min(0f)] private float _fadePerSecond = 1f;
+        [Space]
         [SerializeField, Min(0f)] private float _minOverlapDistance = 0f;
 
         [Header("Components")]
         [SerializeField] private SpriteRenderer _address;
         [SerializeField] private SpriteRenderer _postage;
-        [Space(5f)]
+        [Space]
         [SerializeField] private SpriteRenderer _receivedStamp;
         [SerializeField] private SpriteRenderer _returnToSenderStamp;
-        [Space(5f)]
+        [Space]
         [SerializeField] private SpriteRenderer _outline;
         [SerializeField] private SpriteRenderer _highlight;
 
@@ -57,16 +57,16 @@ namespace LD53.Gameplay
         [Header("Spawn Animation")]
         [SerializeField] private float _spawnMoveDuration = 1f;
         [SerializeField] private float _spawnRotationDuration = 1f;
-        [Space(5f)]
+        [Space]
         [SerializeField] private LeanTweenType _spawnMoveEase = LeanTweenType.notUsed;
         [SerializeField] private LeanTweenType _spawnRotationEase = LeanTweenType.notUsed;
-        [Space(5f)]
+        [Space]
         [SerializeField, ReadOnly] public Vector3 GoalPosition;
         [SerializeField, ReadOnly] public Quaternion GoalRotation;
-        [Space(5f)]
+        [Space]
         [SerializeField, ReadOnly] public LTDescr _spawnMoveTween;
         [SerializeField, ReadOnly] public LTDescr _spawnRotateTween;
-        [Space(5f)]
+        [Space]
         [SerializeField, ReadOnly] public bool _spawnMoveFinished = false;
         [SerializeField, ReadOnly] public bool _spawnRotateFinished = false;
 
@@ -163,30 +163,26 @@ namespace LD53.Gameplay
             // highlight
             if (IsDragging)
             {
-                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 1f, _fadeDelta));
+                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 1f, _fadePerSecond * Time.deltaTime));
             }
             else if (IsHovering)
             {
-                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 0.5f, _fadeDelta));
+                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 0.5f, _fadePerSecond * Time.deltaTime));
             }
             else
             {
-                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 0f, _fadeDelta));
+                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 0f, _fadePerSecond * Time.deltaTime));
             }
 
             // movement
             if (IsDragging)
             {
                 if (transform.rotation != Quaternion.identity)
-                    transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, _rotationDelta);
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.identity, _dragRotationPerSecond * Time.deltaTime);
 
                 if (IsSpawning)
                     StopSpawnAnimation();
             }
-            // else if (transform.rotation != GoalRotation)
-            // {
-            //     transform.rotation = Quaternion.RotateTowards(transform.rotation, GoalRotation, _rotationDelta);
-            // }
         }
 
         #region Mouse Handling
@@ -259,7 +255,7 @@ namespace LD53.Gameplay
 
             var newPosition = GetMousePosition() + _pivotOffset;
             newPosition.z = transform.position.z;
-            transform.position = Vector3.MoveTowards(transform.position, newPosition, _moveDelta);
+            transform.position = Vector3.MoveTowards(transform.position, newPosition, _dragMovementPerSecond * Time.deltaTime);
 
             IReceivable receivable;
             var bins = Physics2D.OverlapAreaNonAlloc(new Vector2(-25, -25), new Vector2(25, 25), _overlaps, _filter.layerMask);

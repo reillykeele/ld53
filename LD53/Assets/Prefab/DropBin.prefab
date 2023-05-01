@@ -263,11 +263,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _highlight: {fileID: 5892810807089111659}
-  _acceptedMailType: 0
-  _fadeDelta: 0.025
+  _fadeDelta: 4
   IsHovering: 0
   _acceptClip: {fileID: 8300000, guid: 36c018dd585447345bb2d74655ea6caf, type: 3}
   _rejectClip: {fileID: 8300000, guid: 4ed47dc6d2005ca48bbb73e3e397a271, type: 3}
+  _acceptedMailType: 0
 --- !u!82 &6076276817846625568
 AudioSource:
   m_ObjectHideFlags: 0

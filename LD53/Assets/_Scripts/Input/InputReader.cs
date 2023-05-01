@@ -71,27 +71,16 @@ namespace LD53.Input
 
         public void OnPause(InputAction.CallbackContext context)
         {
+            #if !UNITY_WEBGL
+
             if (context.phase == InputActionPhase.Performed)
                 MenuPauseEvent.Invoke();
-        }
-
-        // TODO: Remove
-        public void OnExample(InputAction.CallbackContext context)
-        {
-            switch (context.phase)
-		    {
-			    case InputActionPhase.Performed:
-				    ExampleEvent.Invoke();
-				    break;
-			    case InputActionPhase.Canceled:
-				    ExampleCancelledEvent.Invoke();
-				    break;
-		    }
+            #endif
         }
 
         #endregion
 
-		#region Menu Actions
+        #region Menu Actions
 
 		public void EnableMenuInput()
 		{

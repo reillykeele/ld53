@@ -550,9 +550,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inputReader: {fileID: 11400000, guid: c390853b390e5fe4d88375dc8397cbaa, type: 2}
-  _moveDelta: 1
-  _rotationDelta: 0.4
-  _fadeDelta: 0.025
+  _dragMovementPerSecond: 175
+  _dragRotationPerSecond: 90
+  _fadePerSecond: 4
   _minOverlapDistance: 2
   _address: {fileID: 9016081133845568994}
   _postage: {fileID: 1813969795000746825}

@@ -30,11 +30,11 @@ namespace LD53.Gameplay
 
             if (IsHovering)
             {
-                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 0.5f, _fadeDelta));
+                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 0.5f, _fadeDelta * Time.deltaTime));
             }
             else
             {
-                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 0.0f, _fadeDelta));
+                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 0.0f, _fadeDelta * Time.deltaTime));
             }
         }
         public bool Receive(Mail mail)

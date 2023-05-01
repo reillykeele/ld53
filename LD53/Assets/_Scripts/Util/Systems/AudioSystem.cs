@@ -56,6 +56,7 @@ namespace Util.Systems
         {
             var audioSource = GetStream(sound.AudioStream);
             audioSource.clip = sound.AudioClip;
+            audioSource.time = 0;
             audioSource.Play();
         }
 

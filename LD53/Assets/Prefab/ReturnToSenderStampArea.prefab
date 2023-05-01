@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _highlight: {fileID: 8111082639801978144}
-  _fadeDelta: 0.025
+  _fadeDelta: 2
   IsHovering: 0
   _stampAudioClip: {fileID: 8300000, guid: 63285e10a3ff25b4fa733037df340453, type: 3}
 --- !u!82 &7634050627300478486
