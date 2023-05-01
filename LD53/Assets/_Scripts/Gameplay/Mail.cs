@@ -83,6 +83,10 @@ namespace LD53.Gameplay
         [SerializeField, ReadOnly] public bool IsSpawning = false;
         [SerializeField, ReadOnly] public bool IsDeposited = false;
 
+        [Header("Audio")] 
+        private AudioSource _audioSource;
+        [SerializeField] private AudioClip _spawnAudioClip;
+
         private Collider2D _collider;
 
         private Camera _camera;
@@ -94,6 +98,8 @@ namespace LD53.Gameplay
         void Awake()
         {
             _collider =  GetComponent<Collider2D>();
+
+            _audioSource = GetComponent<AudioSource>();
 
             _filter = new ContactFilter2D() { useLayerMask = true, layerMask = LayerMask.GetMask("Bin") };
         }
@@ -146,6 +152,8 @@ namespace LD53.Gameplay
                     .setEase(_spawnRotationEase)
                     .setIgnoreTimeScale(false);
                 _spawnRotateTween.setOnComplete(FinishSpawnRotate);
+
+                _audioSource.PlayOneShot(_spawnAudioClip);
             }
         }
         void Update()

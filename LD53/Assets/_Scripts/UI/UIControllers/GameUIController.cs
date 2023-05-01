@@ -2,10 +2,12 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Util.Audio;
 using Util.Coroutine;
 using Util.Enums;
 using Util.GameEvents;
 using Util.Helpers;
+using Util.Systems;
 using Util.UI;
 using Util.UI.Controllers;
 using Coroutine = UnityEngine.Coroutine;
@@ -27,9 +29,15 @@ namespace LD53.UI.UIControllers
 
         [Header("Event Listeners")] 
         [SerializeField] private VoidGameEventSO _pauseGameEvent = default;
+        [SerializeField] private VoidGameEventSO _resumeGameEvent = default;
         [SerializeField] private IntGameEventSO _setScoreGameEvent = default;
         [SerializeField] private VoidGameEventSO _startMailGameEvent = default;
         [SerializeField] private VoidGameEventSO _timesUpGameEvent = default;
+
+        [Header("Audio")]
+        [SerializeField] private AudioSoundSO _music;
+        [SerializeField] private AudioSoundSO _startSound;
+        [SerializeField] private AudioSoundSO _stopSound;
 
         void Start()
         {
@@ -39,6 +47,7 @@ namespace LD53.UI.UIControllers
         void OnEnable()
         {
             _pauseGameEvent.OnEventRaised += PauseGame;
+            _resumeGameEvent.OnEventRaised += ResumeGame;
             _setScoreGameEvent.OnEventRaised += SetScore;
             _startMailGameEvent.OnEventRaised += StartMail;
             _timesUpGameEvent.OnEventRaised += TimesUp;
@@ -47,6 +56,7 @@ namespace LD53.UI.UIControllers
         void OnDisable()
         {
             _pauseGameEvent.OnEventRaised -= PauseGame;
+            _resumeGameEvent.OnEventRaised += ResumeGame;
             _setScoreGameEvent.OnEventRaised -= SetScore;
             _startMailGameEvent.OnEventRaised -= StartMail;
             _timesUpGameEvent.OnEventRaised -= TimesUp;
@@ -60,11 +70,15 @@ namespace LD53.UI.UIControllers
         public void PauseGame()
         {
             _canvasController.DisplayUI(_pauseMenu);
+
+            AudioSystem.Instance.PauseAudioStream(_music.AudioStream);
         }
 
         public void ResumeGame()
         {
-            _canvasController.HideUI(_pauseMenu);
+            // _canvasController.HideUI(_pauseMenu);
+
+            AudioSystem.Instance.UnpauseAudioStream(_music.AudioStream);
         }
 
         public void SetScore(int score) => _scoreText.text = score.ToString();
@@ -72,11 +86,17 @@ namespace LD53.UI.UIControllers
         public void StartMail()
         {
             _startText.gameObject.Enable();
+
+            AudioSystem.Instance.PlayOnAudioStream(_music);
+            AudioSystem.Instance.PlayAudioSound(_startSound);
         }
 
         public void TimesUp()
         {
             _timesUpText.gameObject.Enable();
+
+            AudioSystem.Instance.StopAudioStream(_music.AudioStream);
+            AudioSystem.Instance.PlayAudioSound(_stopSound);
 
             StartCoroutine(CoroutineUtil.WaitForExecute(() => _canvasController.SwitchUI(_results), _resultPageDelay));
         }

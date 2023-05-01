@@ -275,7 +275,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9f79640e44147ba4980c6c809b6a0e91, type: 3}
-  m_Color: {r: 1, g: 0, b: 0.047468662, a: 1}
+  m_Color: {r: 0.7411765, g: 0.08627451, b: 0.30980393, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -464,6 +464,7 @@ GameObject:
   - component: {fileID: 1594542891822920249}
   - component: {fileID: 1444219886202017735}
   - component: {fileID: 3543001067992667125}
+  - component: {fileID: 4382207902337268724}
   m_Layer: 0
   m_Name: Mail
   m_TagString: Untagged
@@ -575,13 +576,13 @@ MonoBehaviour:
   _scaleOutDuration: 0.25
   _colorMap:
   - MailType: 0
-    color: {r: 0, g: 0.80392164, b: 0.9725491, a: 1}
+    color: {r: 0.29411766, g: 0.9058824, b: 0.9294118, a: 1}
   - MailType: 1
-    color: {r: 1, g: 0.30980393, b: 0, a: 1}
+    color: {r: 0.9176471, g: 0.41176474, b: 0.19607845, a: 1}
   - MailType: 2
-    color: {r: 1, g: 0.7803922, b: 0.14901961, a: 1}
+    color: {r: 0.33333334, g: 0.8470589, b: 0.3019608, a: 1}
   - MailType: 3
-    color: {r: 0.4784314, g: 0.050980397, b: 0.9803922, a: 1}
+    color: {r: 0.5882353, g: 0.25882354, b: 0.9058824, a: 1}
   _postageStamps:
   - {fileID: 21300000, guid: 0792a53a2efe6694c91ef2b007e5d62b, type: 3}
   - {fileID: 21300000, guid: 3cde2b811bb872946887edf9d30ac67c, type: 3}
@@ -591,6 +592,104 @@ MonoBehaviour:
   IsDragging: 0
   IsSpawning: 0
   IsDeposited: 0
+  _spawnAudioClip: {fileID: 8300000, guid: bc5b7a2e1a573064789b94120021c3a9, type: 3}
+--- !u!82 &4382207902337268724
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5129060107376818745}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 1708506529828396996, guid: 0f43cfc974ed69f4dbe6a3ff79496708,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.1
+  m_Pitch: 1.3
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7117062274463007461
 GameObject:
   m_ObjectHideFlags: 0

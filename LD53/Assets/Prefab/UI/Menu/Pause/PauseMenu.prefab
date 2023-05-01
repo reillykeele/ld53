@@ -391,8 +391,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modalPage: {fileID: 11400000, guid: 1b5383fcd709a5946a129878f67b6378, type: 2}
-  _modalTitle: Quit?
-  _modalDescription: Are you sure you want to quit?
+  _modalTitle: 
+  _modalDescription: Quit to desktop?
   OnModalYesEvent:
     m_PersistentCalls:
       m_Calls:
@@ -744,8 +744,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _modalPage: {fileID: 11400000, guid: 1b5383fcd709a5946a129878f67b6378, type: 2}
-  _modalTitle: Return to Menu?
-  _modalDescription: Are you sure you want to return to the menu?
+  _modalTitle: 
+  _modalDescription: Return to the menu?
   OnModalYesEvent:
     m_PersistentCalls:
       m_Calls:

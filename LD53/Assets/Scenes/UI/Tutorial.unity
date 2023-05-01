@@ -2817,7 +2817,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: After being stamped, drop them in the <color=red>RETURN</color> bin.
+  m_text: 'After being stamped, drop them in the <color=red>RETURN</color> bin. <color=red>RETURN
+    TO SENDER</color> mail is worth double the points. '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 880d47aaacc38d6478a9a82fd5968105, type: 2}
   m_sharedMaterial: {fileID: 4082425865360476662, guid: 880d47aaacc38d6478a9a82fd5968105,
@@ -6421,7 +6422,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: These letters must also be stamped with <color="red">RETURN TO SENDER</color>.
+  m_text: After stamping them as <color=green>RECEIVED</color>, these letters must
+    also be stamped with <color="red">RETURN TO SENDER</color>.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 880d47aaacc38d6478a9a82fd5968105, type: 2}
   m_sharedMaterial: {fileID: 4082425865360476662, guid: 880d47aaacc38d6478a9a82fd5968105,

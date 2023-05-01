@@ -5,57 +5,20 @@ using Util.Systems;
 namespace LD53.Gameplay
 {
     [RequireComponent(typeof(Collider2D))]
-    public class ReturnToSenderDropArea : MonoBehaviour, IReceivable
+    public class ReturnToSenderDropArea : ADropBin
     {
-        [Header("Components")]
-        [SerializeField] private SpriteRenderer _highlight;
-        [SerializeField] private float _fadeDelta = 1f;
+        protected override bool ShouldAccept(Mail mail) => mail.HasPostage == false && mail.HasReceivedStamp && mail.HasReturnToSenderStamp;
 
-        [Header("Debug")]
-        [SerializeField, ReadOnly] public bool IsHovering = false;
-
-
-        void Awake()
+        protected override void AcceptMail(Mail mail)
         {
-            _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, 0f);
+            GameManager.Instance.AddScore(2);
+
+            _audioSource?.PlayOneShot(_acceptClip);
         }
 
-        void Update()
+        protected override void RejectMail(Mail mail)
         {
-            if (GameSystem.Instance.IsPlaying() == false) return;
-
-            if (IsHovering)
-            {
-                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 0.5f, _fadeDelta));
-            }
-            else
-            {
-                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 0.0f, _fadeDelta));
-            }
-        }
-        public bool Receive(Mail mail)
-        {
-            if (mail.HasPostage == false && mail.HasReceivedStamp && mail.HasReturnToSenderStamp)
-            {
-                GameManager.Instance.AddScore(1);
-            }
-            else
-            {
-                Debug.Log("bleh");
-            }
-
-            Destroy(mail.gameObject);
-            return true;
-        }
-
-        public void Highlight()
-        {
-            IsHovering = true;
-        }
-
-        public void Unhighlight()
-        {
-            IsHovering = false;
+            _audioSource?.PlayOneShot(_rejectClip);
         }
     }
 }

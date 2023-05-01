@@ -52,6 +52,18 @@ namespace Util.Systems
             audioSource.PlayOneShot(sound.AudioClip);
         }
 
+        public void PlayOnAudioStream(AudioSoundSO sound)
+        {
+            var audioSource = GetStream(sound.AudioStream);
+            audioSource.clip = sound.AudioClip;
+            audioSource.Play();
+        }
+
+        public void PauseAudioStream(AudioStreamSO stream) => GetStream(stream).Pause();
+        public void UnpauseAudioStream(AudioStreamSO stream) => GetStream(stream).UnPause();
+
+        public void StopAudioStream(AudioStreamSO stream) => GetStream(stream).Stop();
+
         /// <summary>
         /// Returns the mixer group's volume.
         /// </summary>
@@ -90,6 +102,7 @@ namespace Util.Systems
                 var audioSource = gameObject.AddComponent<AudioSource>();
 
                 audioSource.outputAudioMixerGroup = stream.MixerGroup;
+                audioSource.volume = stream.Volume;
 
                 _streamHashtable.Add(stream.id, audioSource);
             }

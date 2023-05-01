@@ -9,5 +9,6 @@ namespace Util.Audio
     {
         [UniqueIdentifier] public string id;
         public AudioMixerGroup MixerGroup;
+        public float Volume = 1f;
     }
 }

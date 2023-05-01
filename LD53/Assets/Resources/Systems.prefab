@@ -82,6 +82,8 @@ MonoBehaviour:
   Mixer: {fileID: 24100000, guid: 0f43cfc974ed69f4dbe6a3ff79496708, type: 2}
   _audioStreams:
   - {fileID: 11400000, guid: 5fe8050ca96d59449b113921ec712107, type: 2}
+  - {fileID: 11400000, guid: b52d29975497a7e4eb32e058b7a88302, type: 2}
+  - {fileID: 11400000, guid: 04ac83aead4075746b98afdef7723c41, type: 2}
 --- !u!1 &3883435273545038865
 GameObject:
   m_ObjectHideFlags: 0

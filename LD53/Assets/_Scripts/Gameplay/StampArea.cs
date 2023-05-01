@@ -14,8 +14,14 @@ namespace LD53.Gameplay
         [Header("Debug")]
         [SerializeField, ReadOnly] public bool IsHovering = false;
 
+        [Header("Audio")]
+        private AudioSource _audioSource;
+        [SerializeField] private AudioClip _stampAudioClip;
+
         void Awake()
         {
+            _audioSource = GetComponent<AudioSource>();
+
             _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, 0f);
         }
 
@@ -37,6 +43,9 @@ namespace LD53.Gameplay
             if (mail.HasReceivedStamp == false)
             {
                 mail.StampReceived();
+
+                _audioSource.PlayOneShot(_stampAudioClip);
+
                 return true;
             }
             

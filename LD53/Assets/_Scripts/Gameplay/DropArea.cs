@@ -5,61 +5,24 @@ using Util.Systems;
 namespace LD53.Gameplay
 {
     [RequireComponent(typeof(Collider2D))]
-    public class DropArea : MonoBehaviour, IReceivable
+    public class DropArea : ADropBin
     {
-        [Header("Components")]
-        [SerializeField] private SpriteRenderer _highlight;
-
-        [Header("Configuration")]
+        [Header("Mail Bin")]
         [SerializeField] private MailType _acceptedMailType;
-        [SerializeField] private float _fadeDelta = 1f;
 
-        [Header("Debug")]
-        [SerializeField, ReadOnly] public bool IsHovering = false;
+        protected override bool ShouldAccept(Mail mail) => 
+            mail.HasPostage && mail.HasReceivedStamp && mail.HasReturnToSenderStamp == false && mail.MailType == _acceptedMailType;
 
-        void Awake()
+        protected override void AcceptMail(Mail mail)
         {
-            _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, 0f);
+            GameManager.Instance.AddScore(1);
+
+            _audioSource?.PlayOneShot(_acceptClip);
         }
 
-        void Update()
+        protected override void RejectMail(Mail mail)
         {
-            if (GameSystem.Instance.IsPlaying() == false) return;
-
-            if (IsHovering)
-            {
-                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 0.5f, _fadeDelta));
-            }
-            else
-            {
-                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 0.0f, _fadeDelta));
-            }
-        }
-
-        public bool Receive(Mail mail)
-        {
-            // TODO: Process mail
-            if (mail.HasPostage && mail.HasReceivedStamp && mail.HasReturnToSenderStamp == false && mail.MailType == _acceptedMailType)
-            {
-                GameManager.Instance.AddScore(1);
-            }
-            else
-            {
-                Debug.Log("bleh");
-            }
-
-            mail.DepositInBin();
-            return true;
-        }
-
-        public void Highlight()
-        {
-            IsHovering = true;
-        }
-
-        public void Unhighlight()
-        {
-            IsHovering = false;
+            _audioSource?.PlayOneShot(_rejectClip);
         }
     }
 }
