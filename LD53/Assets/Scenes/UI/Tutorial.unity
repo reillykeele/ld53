@@ -3638,7 +3638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7c58dd1dd448f94386abd9de1353d0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetScene: TestLevel2
+  TargetScene: TestLevel3
   Delay: 0
 --- !u!1 &1175832848
 GameObject:
