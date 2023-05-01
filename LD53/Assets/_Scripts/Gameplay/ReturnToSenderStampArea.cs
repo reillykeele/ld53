@@ -1,65 +1,19 @@
 ﻿using UnityEngine;
-using Util.Attributes;
-using Util.Systems;
 
 namespace LD53.Gameplay
 {
     [RequireComponent(typeof(Collider2D))]
-    public class ReturnToSenderStampArea : MonoBehaviour, IReceivable
+    public class ReturnToSenderStampArea : AStamp
     {
-        [Header("Components")]
-        [SerializeField] private SpriteRenderer _highlight;
-        [SerializeField] private float _fadeDelta = 1f;
+        protected override bool ShouldStamp(Mail mail) => mail.HasReturnToSenderStamp == false;
 
-        [Header("Debug")]
-        [SerializeField, ReadOnly] public bool IsHovering = false;
-
-        [Header("Audio")]
-        private AudioSource _audioSource;
-        [SerializeField] private AudioClip _stampAudioClip;
-
-        void Awake()
+        protected override void StampMail(Mail mail)
         {
-            _audioSource = GetComponent<AudioSource>();
+            mail.StampReturnToSender();
 
-            _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, 0f);
+            _audioSource.PlayOneShot(_stampAudioClip);
         }
 
-        void Update()
-        {
-            if (GameSystem.Instance.IsPlaying() == false) return;
-
-            if (IsHovering)
-            {
-                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 0.5f, _fadeDelta));
-            }
-            else
-            {
-                _highlight.color = new Color(_highlight.color.r, _highlight.color.g, _highlight.color.b, Mathf.MoveTowards(_highlight.color.a, 0.0f, _fadeDelta));
-            }
-        }
-        public bool Receive(Mail mail)
-        {
-            if (mail.HasReturnToSenderStamp == false)
-            {
-                mail.StampReturnToSender();
-
-                _audioSource.PlayOneShot(_stampAudioClip);
-
-                return true;
-            }
-            
-            return false;
-        }
-
-        public void Highlight()
-        {
-            IsHovering = true;
-        }
-
-        public void Unhighlight()
-        {
-            IsHovering = false;
-        }
+        protected override void IgnoreMail(Mail mail) { }
     }
 }
